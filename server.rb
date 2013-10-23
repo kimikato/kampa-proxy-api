@@ -1,6 +1,7 @@
 # _*_ coding: utf-8 _*_
 
 require 'sinatra'
+require 'sinatra/jsonp'
 require 'json'
 require 'net/http'
 require 'uri'
@@ -52,8 +53,8 @@ end
 
 # 指定されたURLを表示
 get '/kampa/:key' do
-	content_type :json, :charset => 'utf-8';
 	consumer_key = params[:key];
+	callback = params[:callback];
 
 	# カンパ一覧取得
 	request_uri = $KAMPA_API_LIST_URL + consumer_key + '.json';
@@ -68,7 +69,14 @@ get '/kampa/:key' do
 	end
 
 	output = { :status_code => '200', :data => result, :status_text => 'OK' }
-	JSON.pretty_generate(output);
+	# JSON.pretty_generate(output);
+	if callback
+		content_type :js, :charset => 'utf-8';
+		response = "#{callback}(#{JSON.pretty_generate(output)})"
+	else
+		content_type :json, :charset => 'utf-8'
+		response = JSON.pretty_generate(output);
+	end
 end
 
 

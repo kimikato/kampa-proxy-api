@@ -2,6 +2,7 @@
 
 require 'rubygems'
 require 'sinatra'
+require 'sinatra/jsonp'
 require 'net/http'
 require 'thin'
 require './server.rb'
