@@ -74,7 +74,7 @@ get '/kampa/:key' do
 		content_type :js, :charset => 'utf-8';
 		response = "#{callback}(#{JSON.pretty_generate(output)})"
 	else
-		content_type :json, :charset => 'utf-8'
+		content_type :json, :charset => 'utf-8';
 		response = JSON.pretty_generate(output);
 	end
 end
